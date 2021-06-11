@@ -1,11 +1,16 @@
 // main container setup
 
 const body = document.querySelector("body");
-
 const container = document.createElement("div");
 container.id = "main-container";
-// container.style.margin = "auto"
 body.appendChild(container);
+
+// heading 
+
+const h1 = document.createElement("h1");
+h1.textContent = "Sketch An Etch";
+h1.style.textAlign = "center";
+body.insertBefore(h1, container);
 
 // grid container
 
@@ -16,9 +21,9 @@ gridContainer.style.flexWrap = "wrap";
 gridContainer.style.width = "50px";
 gridContainer.style.height = "50px";
 gridContainer.style.margin = "auto";
-gridContainer.style.position = "absolute";
-gridContainer.style.left = "50%";
-gridContainer.style.top = "50%";
+// gridContainer.style.position = "absolute";
+// gridContainer.style.left = "50%";
+// gridContainer.style.top = "50%";
 container.appendChild(gridContainer);
 
 let gridSize = () => {
@@ -62,7 +67,6 @@ let gridSize = () => {
 // add square
 
 function createSquare(parent) {
-  const newSquare = document.getElementById("#grid-container");
   const squareDiv = document.createElement("div");
   squareDiv.className = "square-box";
   squareDiv.style.height = "50px";
@@ -74,40 +78,24 @@ function createSquare(parent) {
 
 let gridCreator = (gridSize) => {
   gridContainer.style.width = `${(gridSize * 50) + (gridSize*4)}px`;
-  // gridContainer.style.height = `${gridSize * 50 + gridSize}px`;
-  console.log(gridContainer);
+
+  // for loop needs to add blocks based on grid size
+  // if 2, this means two blocks for width, and two blocks for height
+  // 3, for 3 blocks wide and 3 blocks tall (blocks need to fill square)
+
   for (i = 0; i < gridSize; i++) {
     createSquare(gridContainer);
-    if (gridContainer.style.width != gridContainer.style.height) {
-      gridContainer.style.height = gridContainer.style.width;
-      let createNewRow = document.createElement("div");
-      createNewRow.className = 'test name'
-      createNewRow.style.width = `${(gridSize * 50) + (gridSize*4)}px`;
-      createNewRow.style.height = "50px";
-      // gridContainer.appendChild(createNewRow);
-      // createSquare(container)
-      for (i = 1; i < gridSize; i++) {
-        console.log(gridSize)
-        // gridContainer.cloneNode(true);
-        createSquare(gridContainer)
-        // let cloneIt = gridContainer.cloneNode(true);
-        // gridContainer.appendChild(cloneIt);
-        console.log(gridContainer.style.height)
-    }
-    
+    console.log(i);
+    console.log('square created in outer loop');
+    if (gridContainer.style.width != gridContainer.style.height) {      
+      for (j = 1; j < gridSize; j++) {
+        createSquare(gridContainer);
+        console.log('square created in inner loop');        
+    }    
   }
-
-  // if (gridContainer) {
-  //   let createNewRow = document.createElement("div");
-  //   createNewRow.className = 'test name'
-  //   createNewRow.style.width = `${(gridSize * 50) + (gridSize*4)}px`;
-  //   createNewRow.style.height = "50px";
-  //   // gridContainer.appendChild(createNewRow);
-  //   // createSquare(container)
-  // }
+}
+  gridContainer.style.height = `${(gridSize * 50) + (gridSize*4)}px`;
 
 }
 
-}
-
-gridCreator(2);
+gridCreator(3);
