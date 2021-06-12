@@ -71,8 +71,8 @@ function createSquare(parent) {
   squareDiv.className = "square-box";
   squareDiv.style.height = "50px";
   squareDiv.style.width = "50px";
-  squareDiv.style.backgroundColor = "dodgerblue";
-  squareDiv.style.border = "1px solid black";
+  squareDiv.style.backgroundColor = "#c9c9c9";
+  squareDiv.style.border = "1px solid #979797";
   parent.appendChild(squareDiv);
 }
 
@@ -98,4 +98,4 @@ let gridCreator = (gridSize) => {
 
 }
 
-gridCreator(3);
+gridCreator(16);
