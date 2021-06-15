@@ -3,6 +3,7 @@
 const body = document.querySelector("body");
 const container = document.createElement("div");
 container.id = "main-container";
+container.style.margin = "auto";
 body.appendChild(container);
 
 // heading
@@ -11,6 +12,8 @@ const h1 = document.createElement("h1");
 h1.textContent = "Sketch An Etch";
 h1.style.textAlign = "center";
 body.insertBefore(h1, container);
+
+// buttons
 
 // grid container
 
@@ -21,18 +24,33 @@ gridContainer.style.flexWrap = "wrap";
 gridContainer.style.width = "50px";
 gridContainer.style.height = "50px";
 gridContainer.style.margin = "auto";
+gridContainer.style.textAlign = "center";
 container.appendChild(gridContainer);
 
-// grid size inquiry function
+// reset button
 
-let gridSize = () => {
+const divButton = document.createElement("div");
+divButton.className = "top-buttons";
+divButton.style.textAlign = "center";
+divButton.style.margin = "auto";
+divButton.style.marginBottom = "2.5%";
+container.insertBefore(divButton, gridContainer);
+
+const resetButton = document.createElement("button");
+resetButton.id = "reset-button";
+resetButton.textContent = "Reset";
+
+divButton.appendChild(resetButton);
+
+// reset grid size inquiry function
+
+function gridSize() {
   let res = prompt("How many squares per side for this grid?");
   while (!(res >= 1 && res <= 100)) {
-    let res = prompt("Number must be from 1 to 100.");
-    return res;
+    res = prompt("Enter a number between 1 and 100 please.");
   }
   return res;
-};
+}
 
 // square box creator function
 
@@ -49,6 +67,17 @@ function createSquare(parent) {
 // grid creator function
 
 let gridCreator = (gridSize) => {
+  
+  function delChildren() {
+    let child = gridContainer.lastElementChild;
+    while (child) {
+      gridContainer.removeChild(child);
+      child = gridContainer.lastElementChild;
+    }
+  }
+
+  delChildren();
+
   gridContainer.style.width = `${gridSize * 50 + gridSize * 4}px`;
   for (i = 0; i < gridSize; i++) {
     createSquare(gridContainer);
@@ -63,17 +92,22 @@ let gridCreator = (gridSize) => {
 
 // mouseover function
 
-const divs = document.querySelectorAll('div');
+const divs = document.querySelectorAll("div");
 divs.forEach((div) => {
-  div.addEventListener('mouseover', function (e){
-    console.log(e.target.className);
-    console.log('firing')
+  div.addEventListener("mouseover", function (e) {
     if (e.target.className == "square-box") {
       // change the box to darker grey
-      e.target.style.backgroundColor = '#979797';
+      e.target.style.backgroundColor = "#979797";
     }
   });
-  
 });
 
-gridCreator(16);
+gridCreator(16)
+// gridCreator(gridSize());
+
+let resetFunction = document.getElementById("reset-button");
+resetFunction.addEventListener("click", function () {
+  let grids = gridSize();
+  console.log(grids)
+  gridCreator(grids);
+});
