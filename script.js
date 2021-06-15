@@ -21,8 +21,8 @@ const gridContainer = document.createElement("div");
 gridContainer.id = "grid-container";
 gridContainer.style.display = "flex";
 gridContainer.style.flexWrap = "wrap";
-gridContainer.style.width = "50px";
-gridContainer.style.height = "50px";
+gridContainer.style.width = "832px";
+// gridContainer.style.height = "50px";
 gridContainer.style.margin = "auto";
 gridContainer.style.textAlign = "center";
 
@@ -32,17 +32,41 @@ container.appendChild(gridContainer);
 
 const divButton = document.createElement("div");
 divButton.className = "top-buttons";
+divButton.style.display = "flex";
+divButton.style.justifyContent = "space-around"
 divButton.style.textAlign = "center";
 divButton.style.margin = "auto";
 divButton.style.marginBottom = "2.5%";
-
 container.insertBefore(divButton, gridContainer);
 
 const resetButton = document.createElement("button");
 resetButton.id = "reset-button";
 resetButton.textContent = "Reset";
-
 divButton.appendChild(resetButton);
+
+// rainbown mode button
+
+const rainbowButton = document.createElement("button");
+rainbowButton.id = "reset-button";
+rainbowButton.textContent = "Rainbow";
+divButton.appendChild(rainbowButton)
+
+rainbowButton.addEventListener('click', function () {
+  const rdivs = document.querySelectorAll("div");
+  rdivs.forEach((div) => {
+   div.addEventListener("mouseover", function(e) {
+    if (e.target.className == "square-box") {
+      // change the box to darker grey
+      let randomRgb = (start, end) => start + Math.floor(Math.random() * (end-start +1))
+      const r  = randomRgb(0, 255);
+      const g  = randomRgb(0, 255);
+      const b  = randomRgb(0, 255);
+      e.target.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    }
+  });
+});
+
+});
 
 // reset grid size inquiry function
 
@@ -56,12 +80,15 @@ function gridSize() {
 
 // square box creator function
 
-function createSquare(parent) {
+function createSquare(parent, size) {
+  let boxSize = (832 / size)
+  console.log(boxSize)
   const squareDiv = document.createElement("div");
   squareDiv.className = "square-box";
-  squareDiv.style.height = "50px";
-  squareDiv.style.width = "50px";
+  squareDiv.style.height = `${boxSize}px`;
+  squareDiv.style.width = `${boxSize}px`;
   squareDiv.style.backgroundColor = "#c9c9c9";
+  squareDiv.style.boxSizing = "border-box";
   squareDiv.style.border = "1px solid #979797";
   squareDiv.style.display = "flex";
   parent.appendChild(squareDiv);
@@ -81,23 +108,23 @@ let gridCreator = (gridSize) => {
 
   delChildren();
 
-  gridContainer.style.width = `${gridSize * 50 + gridSize * 3}px`;
+  // gridContainer.style.width = `${gridSize * 50 + gridSize * 2}px`;
   for (i = 0; i < gridSize; i++) {
-    createSquare(gridContainer);
+    createSquare(gridContainer, gridSize);
     if (gridContainer.style.width != gridContainer.style.height) {
       for (j = 1; j < gridSize; j++) {
-        createSquare(gridContainer);
+        createSquare(gridContainer, gridSize);
       }
     }
   }
-  gridContainer.style.height = `${gridSize * 50 + gridSize * 2}px`;
+  // gridContainer.style.height = `${gridSize * 50 + gridSize * 2}px`;
 };
 
 // mouseover function
 
 const divs = document.querySelectorAll("div");
 divs.forEach((div) => {
-  div.addEventListener("mouseover", function (e) {
+  div.addEventListener("mouseover", function(e) {
     if (e.target.className == "square-box") {
       // change the box to darker grey
       e.target.style.backgroundColor = "#979797";
@@ -105,7 +132,7 @@ divs.forEach((div) => {
   });
 });
 
-gridCreator(16)
+gridCreator(16) // default grid with width and height of 832px
 // gridCreator(gridSize());
 
 let resetFunction = document.getElementById("reset-button");
