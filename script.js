@@ -25,6 +25,7 @@ gridContainer.style.width = "50px";
 gridContainer.style.height = "50px";
 gridContainer.style.margin = "auto";
 gridContainer.style.textAlign = "center";
+
 container.appendChild(gridContainer);
 
 // reset button
@@ -34,6 +35,7 @@ divButton.className = "top-buttons";
 divButton.style.textAlign = "center";
 divButton.style.margin = "auto";
 divButton.style.marginBottom = "2.5%";
+
 container.insertBefore(divButton, gridContainer);
 
 const resetButton = document.createElement("button");
@@ -61,6 +63,7 @@ function createSquare(parent) {
   squareDiv.style.width = "50px";
   squareDiv.style.backgroundColor = "#c9c9c9";
   squareDiv.style.border = "1px solid #979797";
+  squareDiv.style.display = "flex";
   parent.appendChild(squareDiv);
 }
 
@@ -78,7 +81,7 @@ let gridCreator = (gridSize) => {
 
   delChildren();
 
-  gridContainer.style.width = `${gridSize * 50 + gridSize * 4}px`;
+  gridContainer.style.width = `${gridSize * 50 + gridSize * 3}px`;
   for (i = 0; i < gridSize; i++) {
     createSquare(gridContainer);
     if (gridContainer.style.width != gridContainer.style.height) {
@@ -87,7 +90,7 @@ let gridCreator = (gridSize) => {
       }
     }
   }
-  gridContainer.style.height = `${gridSize * 50 + gridSize * 4}px`;
+  gridContainer.style.height = `${gridSize * 50 + gridSize * 2}px`;
 };
 
 // mouseover function
