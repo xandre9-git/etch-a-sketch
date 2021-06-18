@@ -33,9 +33,10 @@ container.appendChild(gridContainer);
 const divButton = document.createElement("div");
 divButton.className = "top-buttons";
 divButton.style.display = "flex";
-divButton.style.justifyContent = "space-around";
+divButton.style.justifyContent = "center";
 divButton.style.textAlign = "center";
 divButton.style.margin = "auto";
+divButton.style.width = "50%";
 divButton.style.marginBottom = "2.5%";
 container.insertBefore(divButton, gridContainer);
 
@@ -56,7 +57,6 @@ rainbowButton.addEventListener("click", function () {
   rdivs.forEach((div) => {
     div.addEventListener("mouseover", function (e) {
       if (e.target.className == "square-box") {
-        // change the box to darker grey
         let randomRgb = (start, end) =>
           start + Math.floor(Math.random() * (end - start + 1));
         const r = randomRgb(0, 255);
@@ -75,16 +75,39 @@ gradientButton.id = "gradient-button";
 gradientButton.textContent = "Gradient Mode";
 divButton.appendChild(gradientButton);
 
-gradientButton.addEventListener("click", function () {
-  const sdivs = document.querySelectorAll("div");
+let sequence = (function () {
+  let a = 0;
+  return function () {
+    if (a > 9 || a < 0) {
+      a = 0;
+    }
+    console.log("A:", a);
+    return a++;
+  };
+})();
 
+gradientButton.addEventListener("click", function (e) {
+  const sdivs = document.querySelectorAll("div");
+  console.log(e);
   sdivs.forEach((div) => {
     div.addEventListener("mouseover", function (e) {
-      for (i = 1; i <= 10; i++) {
-        if (e.target.className == "square-box") {
-          e.target.style.backgroundColor = `rgba(0,0,0,0.${i})`;
-          console.log((e.target.style.backgroundColor = `rgba(0,0,0,0.${i})`));
-        }
+      if (e.target.className == "square-box") {
+        let shadesOfBlack = (old) => {
+          // take old replace with new
+          // pull old alpha value from existing target
+          s = old.replace(/[^\d,]/g, "").split(",");
+          console.log("Sequence:", sequence());
+          e.target.style.backgroundColor = `rgba(${s[0] - s[0]}, ${
+            s[1] - s[1]
+          }, ${s[2] - s[2]}, 0.${sequence()})`;
+          console.log(
+            "e.target.bgColor:",
+            (e.target.style.backgroundColor = `rgba(${s[0] - s[0]}, ${
+              s[1] - s[1]
+            }, ${s[2] - s[2]}, 0.${sequence()})`)
+          );
+        };
+        shadesOfBlack(e.target.style.backgroundColor);
       }
     });
   });
